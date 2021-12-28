@@ -1,41 +1,31 @@
 $('.box').each(function(index, element) {
+    let y = $('.box').eq(index).offset().left;
     $(element).click(function(){
+        $('.box').eq(index).attr('hidden', true);
+        $('.hidden').eq(index).removeAttr('hidden');
         $('.modal-container').css({
             backgroundColor: 'rgb(0 0 0 / 70%)',
             zIndex: 3
         });
-        $('.box').eq(index).toggle(function() {
-            $(this).css('z-index', 99);
-            $(this).css('transform', `translate(-50%, 0)`);
+        $('.hidden').eq(index).css('z-index', 99).animate({
+            top: ((window.innerHeight - 400)/2)-60,
+            left: (window.innerWidth - 400)/2 - y,
+            width: `400px`,
+            height: `400px`,
+        },1000, 'easeOutBack').click(function() {
             $(this).animate({
-                top: `50%`,
-                left: `50%`,
-                marginRight: `-50%`,
-                width: `400px`,
-                height: `400px`,
-            },1000)
+                top: 0,
+                left: 0,
+                width: `150px`,
+                height: `150px`,
+            },1000, 'easeInBack', function() {
+                $('.modal-container').css({
+                    backgroundColor: '#fff',
+                    zIndex: -1
+                });
+                $('.hidden').eq(index).attr('hidden', true);
+                $('.box').eq(index).removeAttr('hidden');
+            })
         })
-        // $('.box').eq(index).css('z-index', 99);
-        // $('.box').eq(index).css('transform', `translate(-50%, 0)`);
-        // $('.box').eq(index).animate({
-        //     top: `50%`,
-        //     left: `50%`,
-        //     marginRight: `-50%`,
-        //     width: `400px`,
-        //     height: `400px`,
-        // },1000).click(function(){
-        //     $('.modal-container').css({
-        //         backgroundColor: '#fff',
-        //         zIndex: -1
-        //     });
-        //     $(this).animate({
-        //         top: ``,
-        //         left: ``,
-        //         marginRight: ``,
-        //         width: `150px`,
-        //         height: `150px`,
-        //     })
-        // });
-
     })
 })
